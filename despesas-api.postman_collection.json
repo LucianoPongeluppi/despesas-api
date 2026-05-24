@@ -1,0 +1,326 @@
+{
+  "info": {
+    "_postman_id": "73912f04-ac8a-4023-95ae-1b2466397d4b",
+    "name": "despesas-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "18880930"
+  },
+  "item": [
+    {
+      "name": "categorias",
+      "item": [
+        {
+          "name": "list-all-categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create-categoria",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Lanche\",\r\n    \"description\": \"Hot Dog\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete-categoria",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "tipos-pagamento",
+      "item": [
+        {
+          "name": "create-tipo-pagamento",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"Crédito\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tipos-de-pagamento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tipos-de-pagamento"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "list-all-tipos-pagamento",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"type\": \"Dinheiro\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/tipos-de-pagamento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "tipos-de-pagamento"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "despesas",
+      "item": [
+        {
+          "name": "create-despesa",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": 20,\r\n    \"purchaseDate\": \"24/05/2026\",\r\n    \"description\": \"Lanche da tarde\",\r\n    \"paymentTypeId\": \"3\",\r\n    \"categoryId\": \"2\",\r\n    \"zipCode\": \"08695-430\",\r\n    \"addressNumber\": \"100\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "list-all-despesas",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": \"1\",\r\n    \"purchaseDate\": \"20/05/2026\",\r\n    \"description\": \"Gasto para almoçar\",\r\n    \"paymentTypeId\": \"1\",\r\n    \"categoryId\": \"2\",\r\n    \"zipCode\": \"08695-430\",\r\n    \"addressNumber\": 200\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete-despesa",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": \"1\",\r\n    \"purchaseDate\": \"20/05/2026\",\r\n    \"description\": \"Gasto para almoçar\",\r\n    \"paymentTypeId\": \"1\",\r\n    \"categoryId\": \"2\",\r\n    \"zipCode\": \"08695-430\",\r\n    \"addressNumber\": 200\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "generate-pdf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": \"1\",\r\n    \"purchaseDate\": \"20/05/2026\",\r\n    \"description\": \"Gasto para almoçar\",\r\n    \"paymentTypeId\": \"1\",\r\n    \"categoryId\": \"2\",\r\n    \"zipCode\": \"08695-430\",\r\n    \"addressNumber\": 200\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas/pdf?startDate=2026-05-01&endDate=2026-05-30",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas",
+                "pdf"
+              ],
+              "query": [
+                {
+                  "key": "startDate",
+                  "value": "2026-05-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2026-05-30"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "generate-excel",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": \"1\",\r\n    \"purchaseDate\": \"20/05/2026\",\r\n    \"description\": \"Gasto para almoçar\",\r\n    \"paymentTypeId\": \"1\",\r\n    \"categoryId\": \"2\",\r\n    \"zipCode\": \"08695-430\",\r\n    \"addressNumber\": 200\r\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas/excel",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas",
+                "excel"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "patch-despesas",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"value\": 5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/despesas/:id",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "despesas",
+                ":id"
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
