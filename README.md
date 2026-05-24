@@ -51,3 +51,4 @@ O servidor estará disponível em `http://localhost:3000`.
 | `npm run db:setup` | Cria as tabelas no banco de dados |
 | `npm run lint` | Verifica erros de lint |
 | `npm run lint:fix` | Corrige erros de lint automaticamente |
+| `npm run test` | Inicia os testes com jest |
