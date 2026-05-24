@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
-    "db:setup": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register database/setup.ts",
+    "db:setup": "ts-node-dev --transpile-only -r tsconfig-paths/register database/setup.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",

@@ -29,7 +29,7 @@ DB_PASSWORD=senha
 
 ## Banco de dados
 
-Crie o banco no PostgreSQL e execute o script de setup para criar as tabelas:
+Crie o banco no PostgreSQL como o nome de "despesas" e execute o script de setup para criar as tabelas:
 
 ```bash
 npm run db:setup
