@@ -46,7 +46,7 @@ export class UpdateExpense {
         );
       }
 
-      let foundEstablishment = await this.establishmentRepository.findByEnderecoId(
+      let foundEstablishment = await this.establishmentRepository.findByAddressId(
         foundAddress.id ?? ''
       );
 

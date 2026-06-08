@@ -6,6 +6,8 @@ type AddressProps = {
   bairro?: string | null;
   logradouro?: string | null;
   numero?: string | null;
+  enriched?: boolean;
+  enrichment_attempts?: number;
 };
 
 export class Address {
@@ -16,6 +18,8 @@ export class Address {
   public readonly bairro?: string | null;
   public readonly logradouro?: string | null;
   public readonly numero?: string | null;
+  public readonly enriched: boolean;
+  public readonly enrichment_attempts: number;
 
   constructor(props: AddressProps) {
     this.id = props.id ?? null;
@@ -25,5 +29,7 @@ export class Address {
     this.bairro = props.bairro ?? null;
     this.logradouro = props.logradouro ?? null;
     this.numero = props.numero ?? null;
+    this.enriched = props.enriched ?? false;
+    this.enrichment_attempts = props.enrichment_attempts ?? 0;
   }
 }

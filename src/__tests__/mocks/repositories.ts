@@ -38,6 +38,9 @@ export const makeAddressRepository = () =>
     create: jest.fn(),
     findById: jest.fn(),
     findByCepAndNumber: jest.fn(),
+    findPendingEnrichment: jest.fn(),
+    enrich: jest.fn(),
+    failEnrichment: jest.fn(),
   }) as unknown as jest.Mocked<IAddressRepository>;
 
 export const makeEstablishmentRepository = () =>
@@ -45,7 +48,7 @@ export const makeEstablishmentRepository = () =>
     create: jest.fn(),
     findById: jest.fn(),
     findByIds: jest.fn(),
-    findByEnderecoId: jest.fn(),
+    findByAddressId: jest.fn(),
   }) as unknown as jest.Mocked<IEstablishmentRepository>;
 
 export const makeAddressService = () =>

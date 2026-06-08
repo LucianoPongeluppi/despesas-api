@@ -64,7 +64,7 @@ describe('UpdateExpense', () => {
     addressService.getAddressByZipCode.mockResolvedValue(mockAddressData);
     addressRepo.findByCepAndNumber.mockResolvedValue(null);
     addressRepo.create.mockResolvedValue(mockAddress);
-    establishmentRepo.findByEnderecoId.mockResolvedValue(null);
+    establishmentRepo.findByAddressId.mockResolvedValue(null);
     establishmentRepo.create.mockResolvedValue(mockEstablishment);
     expenseRepo.update.mockResolvedValue(updated);
 

@@ -23,7 +23,9 @@ async function setup() {
         cidade text,
         bairro text,
         logradouro text,
-        numero text
+        numero text,
+        enriched boolean NOT NULL DEFAULT false,
+        enrichment_attempts integer NOT NULL DEFAULT 0
       );
 
       CREATE TABLE IF NOT EXISTS estabelecimentos (

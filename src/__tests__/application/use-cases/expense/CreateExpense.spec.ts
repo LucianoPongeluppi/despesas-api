@@ -4,6 +4,7 @@ import { Address } from '@/domain/entities/Address';
 import { Establishment } from '@/domain/entities/Establishment';
 import { Category } from '@/domain/entities/Category';
 import { PaymentType } from '@/domain/entities/PaymentType';
+import { AppError } from '@/shared/error/AppError';
 import {
   makeExpenseRepository,
   makeAddressRepository,
@@ -70,7 +71,7 @@ describe('CreateExpense', () => {
     addressService.getAddressByZipCode.mockResolvedValue(mockAddressData);
     addressRepo.findByCepAndNumber.mockResolvedValue(null);
     addressRepo.create.mockResolvedValue(mockAddress);
-    establishmentRepo.findByEnderecoId.mockResolvedValue(null);
+    establishmentRepo.findByAddressId.mockResolvedValue(null);
     establishmentRepo.create.mockResolvedValue(mockEstablishment);
     expenseRepo.create.mockResolvedValue(createdExpense);
 
@@ -85,7 +86,7 @@ describe('CreateExpense', () => {
   it('deve reutilizar endereço existente', async () => {
     addressService.getAddressByZipCode.mockResolvedValue(mockAddressData);
     addressRepo.findByCepAndNumber.mockResolvedValue(mockAddress);
-    establishmentRepo.findByEnderecoId.mockResolvedValue(null);
+    establishmentRepo.findByAddressId.mockResolvedValue(null);
     establishmentRepo.create.mockResolvedValue(mockEstablishment);
     expenseRepo.create.mockResolvedValue(
       new Expense({ id: '1', valor: 150, data_compra: '2026-05-01', descricao: 'Almoço', tipo_pagamento_id: '1', categoria_id: '2', estabelecimento_id: '20' }),
@@ -100,7 +101,7 @@ describe('CreateExpense', () => {
   it('deve reutilizar estabelecimento existente', async () => {
     addressService.getAddressByZipCode.mockResolvedValue(mockAddressData);
     addressRepo.findByCepAndNumber.mockResolvedValue(mockAddress);
-    establishmentRepo.findByEnderecoId.mockResolvedValue(mockEstablishment);
+    establishmentRepo.findByAddressId.mockResolvedValue(mockEstablishment);
     expenseRepo.create.mockResolvedValue(
       new Expense({ id: '1', valor: 150, data_compra: '2026-05-01', descricao: 'Almoço', tipo_pagamento_id: '1', categoria_id: '2', estabelecimento_id: '20' }),
     );
@@ -110,5 +111,33 @@ describe('CreateExpense', () => {
     expect(addressRepo.create).not.toHaveBeenCalled();
     expect(establishmentRepo.create).not.toHaveBeenCalled();
     expect(expenseRepo.create).toHaveBeenCalledTimes(1);
+  });
+
+  it('deve salvar endereço parcial (enriched=false) quando o ViaCEP está indisponível', async () => {
+    const partialAddress = new Address({ id: '10', cep: '01310100', numero: '1000', enriched: false });
+    addressRepo.findByCepAndNumber.mockResolvedValue(null);
+    addressService.getAddressByZipCode.mockRejectedValue(new AppError('Erro ao consultar CEP', 502));
+    addressRepo.create.mockResolvedValue(partialAddress);
+    establishmentRepo.findByAddressId.mockResolvedValue(null);
+    establishmentRepo.create.mockResolvedValue(mockEstablishment);
+    expenseRepo.create.mockResolvedValue(
+      new Expense({ id: '1', valor: 150, data_compra: '2026-05-01', descricao: 'Almoço', tipo_pagamento_id: '1', categoria_id: '2', estabelecimento_id: '20' }),
+    );
+
+    const result = await useCase.execute(makeCreateDTO());
+
+    expect(addressRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({ enriched: false })
+    );
+    expect(result.estabelecimento_id).toBe('20');
+  });
+
+  it('deve lançar erro quando o CEP é inválido (erro de cliente)', async () => {
+    addressRepo.findByCepAndNumber.mockResolvedValue(null);
+    addressService.getAddressByZipCode.mockRejectedValue(new AppError('CEP inválido', 400));
+
+    await expect(useCase.execute(makeCreateDTO())).rejects.toThrow('CEP inválido');
+
+    expect(addressRepo.create).not.toHaveBeenCalled();
   });
 });

@@ -58,10 +58,12 @@ export class ExpenseRepository implements IExpenseRepository {
     const dataParams: Array<string | number> = [...baseParams];
 
     let dataQuery = `
-      SELECT id, valor, data_compra, descricao, tipo_pagamento_id, categoria_id, estabelecimento_id
-      FROM despesas
+      SELECT d.id, d.valor, d.data_compra, d.descricao, e.id AS estabelecimento_id, en.id AS endereco_id, en.cep, en.logradouro
+      FROM despesas d
+      LEFT JOIN estabelecimentos e ON d.estabelecimento_id = e.id
+      LEFT JOIN enderecos en ON e.endereco_id = en.id
       WHERE ${whereClause}
-      ORDER BY data_compra DESC, id DESC
+      ORDER BY d.data_compra DESC, d.id DESC
     `;
 
     if (hasPagination) {
@@ -126,6 +128,11 @@ export class ExpenseRepository implements IExpenseRepository {
     categoria_id: string;
     estabelecimento_id?: string | null;
   }): Expense {
+    const estabelecimento = expense.estabelecimento_id
+      ? {
+        id: expense.estabelecimento_id,
+      } : null;
+
     return new Expense({
       id: expense.id,
       valor: parseFloat(expense.valor),
@@ -134,6 +141,7 @@ export class ExpenseRepository implements IExpenseRepository {
       tipo_pagamento_id: expense.tipo_pagamento_id,
       categoria_id: expense.categoria_id,
       estabelecimento_id: expense.estabelecimento_id ?? null,
+      estabelecimento,
     });
   }
 }

@@ -33,27 +33,55 @@ export class CreateExpense {
       throw new AppError('Tipo de pagamento não encontrado', 404);
     }
 
-    const address = await this.addressService.getAddressByZipCode(data.zipCode);
-
     let createdAddress = await this.addressRepository.findByCepAndNumber(
-      address.zipCode,
+      data.zipCode,
       data.addressNumber
     );
 
     if (!createdAddress) {
+      let addressData: {
+        zipCode: string;
+        state: string;
+        city: string;
+        neighborhood: string;
+        street: string;
+        enriched: boolean;
+      };
+
+      try {
+        const fetched = await this.addressService.getAddressByZipCode(data.zipCode);
+        addressData = { ...fetched, enriched: true };
+      } catch (err) {
+        const isClientError = err instanceof AppError && err.statusCode < 500;
+
+        if (isClientError) {
+          throw err;
+        }
+
+        addressData = {
+          zipCode: data.zipCode.replace(/\D/g, ''),
+          state: '',
+          city: '',
+          neighborhood: '',
+          street: '',
+          enriched: false,
+        };
+      }
+
       createdAddress = await this.addressRepository.create(
         new Address({
-          cep: address.zipCode,
-          uf: address.state,
-          cidade: address.city,
-          bairro: address.neighborhood,
-          logradouro: address.street,
+          cep: addressData.zipCode,
+          uf: addressData.state || null,
+          cidade: addressData.city || null,
+          bairro: addressData.neighborhood || null,
+          logradouro: addressData.street || null,
           numero: data.addressNumber,
+          enriched: addressData.enriched,
         })
       );
     }
 
-    let establishment = await this.establishmentRepository.findByEnderecoId(
+    let establishment = await this.establishmentRepository.findByAddressId(
       createdAddress.id ?? ''
     );
 

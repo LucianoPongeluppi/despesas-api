@@ -50,7 +50,7 @@ export class EstablishmentRepository implements IEstablishmentRepository {
     return result.rows.map(this.mapToEntity);
   }
 
-  async findByEnderecoId(enderecoId: string): Promise<Establishment | null> {
+  async findByAddressId(enderecoId: string): Promise<Establishment | null> {
     const result = await pool.query(
       'SELECT e.*, en.* FROM estabelecimentos e JOIN enderecos en ON e.endereco_id = en.id WHERE e.endereco_id = $1 LIMIT 1',
       [enderecoId]

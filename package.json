@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/index.ts",
     "db:setup": "ts-node-dev --transpile-only -r tsconfig-paths/register database/setup.ts",
+    "db:migrate": "ts-node-dev --transpile-only -r tsconfig-paths/register database/migrations/001_add_address_enrichment.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
@@ -21,6 +22,7 @@
     "dotenv": "^17.4.2",
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
+    "node-cron": "^4.2.1",
     "pg": "^8.21.0",
     "puppeteer": "^25.0.4",
     "ts-node-dev": "^2.0.0",
@@ -34,6 +36,7 @@
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.9.1",
+    "@types/node-cron": "^3.0.11",
     "@types/pg": "^8.11.6",
     "eslint": "^10.4.0",
     "globals": "^16.5.0",

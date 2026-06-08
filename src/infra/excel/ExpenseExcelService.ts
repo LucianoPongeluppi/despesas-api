@@ -32,6 +32,14 @@ export class ExpenseExcelService {
   ) {}
 
   async generate(expenses: Expense[]): Promise<Buffer> {
+    if (expenses.length === 0) {
+      const workbook = new ExcelJS.Workbook();
+      workbook.addWorksheet(ExpenseExcelService.SHEET_NAME).columns = ExpenseExcelService.COLUMNS;
+      const buffer = await workbook.xlsx.writeBuffer();
+
+      return Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer as ArrayBuffer);
+    }
+
     const establishmentIds = Array.from(
       new Set(expenses.map((e) => e.estabelecimento_id).filter(Boolean))
     ) as string[];

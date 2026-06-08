@@ -1,3 +1,5 @@
+import { Establishment } from './Establishment';
+
 type ExpenseProps = {
   id?: string | null;
   valor: number;
@@ -6,6 +8,7 @@ type ExpenseProps = {
   tipo_pagamento_id: string;
   categoria_id: string;
   estabelecimento_id?: string | null;
+  estabelecimento?: Establishment | null;
 };
 
 export class Expense {
@@ -16,6 +19,7 @@ export class Expense {
   public readonly tipo_pagamento_id: string;
   public readonly categoria_id: string;
   public readonly estabelecimento_id?: string | null;
+  public readonly estabelecimento?: Establishment | null;
 
   constructor(props: ExpenseProps) {
     this.id = props.id ?? null;
@@ -25,5 +29,6 @@ export class Expense {
     this.tipo_pagamento_id = props.tipo_pagamento_id;
     this.categoria_id = props.categoria_id;
     this.estabelecimento_id = props.estabelecimento_id ?? null;
+    this.estabelecimento = props.estabelecimento ?? null;
   }
 }
